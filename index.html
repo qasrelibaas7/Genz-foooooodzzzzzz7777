@@ -202,15 +202,39 @@
     }  
     .google-signin:hover { background: #f1f1f1; box-shadow: var(--shadow-sm); }  
 
-    /* --- Responsive --- */  
+        /* --- Responsive (Updated for Mobile Profile Icon) --- */  
     @media (max-width: 600px) {  
+        header { 
+            padding: 0 4% !important; 
+            gap: 10px; 
+        }
+
+        /* Location hide karne se profile ke liye jagah ban jayegi */
+        .location-tag { 
+            display: none !important; 
+        }
+
+        .logo-box h1 { 
+            font-size: 1.2rem; 
+        }
+
+        .nav-actions { 
+            gap: 12px; 
+        }
+
+        #nav-user-img { 
+            width: 30px !important; 
+            height: 30px !important; 
+        }
+
         .cart-panel { width: 100%; }  
         .hero { height: 400px; }  
-        .hero-content h2 { font-size: 2.8rem; }  
+        .hero-content h2 { font-size: 2.2rem; }  
         .cat-strip { height: 110px; }  
         .cat-strip h3 { font-size: 1.4rem; }  
         .dish-list { grid-template-columns: 1fr; }  
-    }  
+    }
+    
 
     /* Footer */  
     footer { background: var(--secondary); color: white; padding: 80px 6%; margin-top: 50px; }  
@@ -223,27 +247,29 @@
 </style>
 
 </head>  
-<body>  <header>  
+<body>   <header>  
     <div class="logo-box" onclick="location.reload()">  
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046788.png" width="40" alt="Logo">  
+        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046788.png" alt="Logo" style="width: 30px;">  
         <h1>GENZ FOOD</h1>  
     </div>  
+
     <div class="location-tag">  
         <span>Delivering to</span>  
-        <b><i class="fas fa-location-dot"></i> Ajara, Maharashtra <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left:5px;"></i></b>  
+        <b><i class="fas fa-location-dot"></i> Ajara, Maharashtra</b>  
     </div>  
+
     <div class="nav-actions">  
         <div class="nav-item" onclick="document.getElementById('home').scrollIntoView()"><i class="fas fa-search"></i></div>  
         <div class="nav-item" onclick="toggleCart()">  
             <i class="fas fa-shopping-bag"></i>  
             <span class="badge" id="cart-count">0</span>  
         </div>  
-        <div id="user-trigger" onclick="toggleAuth()">  
+        <div id="user-trigger" onclick="toggleAuth()" style="display: flex; align-items: center;">  
             <img id="nav-user-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">  
         </div>  
     </div>  
-</header>  
-
+</header>
+    
 <section class="hero" id="home">  
     <div class="hero-bg"></div>  
     <div class="hero-content">  

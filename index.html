@@ -1,663 +1,688 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>GENZ FOOD | Ajara's Premium Food Hub</title>  <meta name="theme-color" content="#ff5200">  
-  
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">  
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>  
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FOOD | Ajara's Premium Food Hub</title>
+<meta name="theme-color" content="#ff5200">
 
-<style>  
-    :root {  
-        --primary: #ff5200;  
-        --primary-light: #fff0e6;  
-        --secondary: #161824;  
-        --text-dark: #282c3f;  
-        --text-gray: #686b78;  
-        --white: #ffffff;  
-        --success: #60b246;  
-        --glass: rgba(255, 255, 255, 0.8);  
-        --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);  
-        --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);  
-        --radius: 16px;  
-    }  
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-    /* Base Styles */  
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }  
-    body { background-color: #f4f7f9; color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }  
+<style>
+  /* ========== Global Reset ========== */
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Outfit',sans-serif; }
+  body { background:#fff; color:#333; overflow-x:hidden; }
 
-    /* Custom Scrollbar */  
-    ::-webkit-scrollbar { width: 6px; height: 6px; }  
-    ::-webkit-scrollbar-thumb { background: #d4d5d9; border-radius: 10px; }  
-    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }  
+  /* ========== Variables ========== */
+  :root {
+    --primary:#ff5200;
+    --primary-light:#ff784d;
+    --secondary:#ff7f50;
+    --text-gray:#777;
+    --text-dark:#222;
+    --bg-dark:#1e1e1e;
+    --bg-light:#fff;
+  }
 
-    /* --- Header & Navigation --- */  
-    header {  
-        position: fixed; top: 0; width: 100%; height: 75px;  
-        background: var(--glass); backdrop-filter: blur(15px);  
-        z-index: 1000; display: flex; align-items: center;  
-        justify-content: space-between; padding: 0 6%;  
-        box-shadow: var(--shadow-sm); border-bottom: 1px solid rgba(0,0,0,0.05);  
-    }  
-    .logo-box { display: flex; align-items: center; gap: 8px; cursor: pointer; }  
-    .logo-box h1 { color: var(--primary); font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; }  
-    .location-tag { font-size: 0.8rem; color: var(--text-gray); display: flex; flex-direction: column; }  
-    .location-tag b { color: var(--text-dark); font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }  
+  /* ========== Header ========== */
+  header { 
+    position:fixed; top:0; left:0; width:100%; z-index:1000; 
+    background:#fff; display:flex; justify-content:space-between; align-items:center; padding:12px 16px; box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  }
+  .logo { font-weight:800; font-size:1.5rem; color:var(--primary); }
+  .nav-icons { display:flex; align-items:center; gap:15px; }
+  .nav-icons i { font-size:1.2rem; cursor:pointer; color:#555; }
 
-    .nav-actions { display: flex; align-items: center; gap: 20px; }  
-    .nav-item { position: relative; cursor: pointer; transition: 0.3s; padding: 8px; border-radius: 50%; }  
-    .nav-item:hover { background: var(--primary-light); color: var(--primary); }  
-    .badge {  
-        position: absolute; top: 0; right: 0; background: var(--primary);  
-        color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%;  
-        font-weight: bold; border: 2px solid white;  
-    }  
-    #nav-user-img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }  
+  /* Hamburger Menu */
+  .hamburger { display:flex; flex-direction:column; gap:4px; cursor:pointer; }
+  .hamburger div { width:25px; height:3px; background:#555; border-radius:2px; }
 
-    /* --- Hero Section --- */  
-    .hero {  
-        margin-top: 75px; height: 500px; position: relative;  
-        background: var(--secondary); display: flex; align-items: center;  
-        justify-content: center; overflow: hidden;  
-    }  
-    .hero-bg {  
-        position: absolute; width: 100%; height: 100%;  
-        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)),   
-        url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');  
-        background-size: cover; background-position: center; transition: 0.5s;  
-    }  
-    .hero-content {  
-        position: relative; z-index: 10; text-align: center; color: white;  
-        max-width: 800px; padding: 20px;  
-    }  
-    .hero-content h2 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }  
-    .hero-content p { font-size: 1.2rem; margin-bottom: 40px; color: #ccc; }  
+  /* Navigation Drawer */
+  #navDrawer { 
+    position:fixed; top:0; left:-100%; width:70%; max-width:300px; height:100%; background:#fff; z-index:1100; 
+    box-shadow:3px 0 5px rgba(0,0,0,0.1); transition:0.3s; padding:20px;
+  }
+  #navDrawer.active { left:0; }
+  #navDrawer h3 { margin-bottom:20px; color:var(--primary); }
+  #navDrawer p { padding:10px 0; cursor:pointer; border-bottom:1px solid #eee; }
 
-    /* --- Search Bar --- */  
-    .search-container {  
-        position: relative; max-width: 650px; margin: 0 auto;  
-        background: white; border-radius: 50px; display: flex;  
-        padding: 8px; box-shadow: 0 15px 45px rgba(0,0,0,0.3);  
-    }  
-    .search-container input {  
-        flex: 1; border: none; outline: none; padding: 12px 25px;  
-        font-size: 1.1rem; border-radius: 50px;  
-    }  
-    .search-btn {  
-        background: var(--primary); color: white; border: none;  
-        padding: 12px 30px; border-radius: 50px; font-weight: bold;  
-        cursor: pointer; transition: 0.3s;  
-    }  
-    .search-btn:hover { background: #e64a00; transform: scale(1.05); }  
+  /* Hero Section */
+  .hero { margin-top:60px; width:100%; height:220px; background:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80') center/cover no-repeat; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; text-shadow:0 2px 5px rgba(0,0,0,0.5);}
+  .hero h1 { font-size:2rem; font-weight:800; margin-bottom:10px; animation:fadeInDown 1s ease forwards; }
+  .hero p { font-size:0.9rem; margin-bottom:15px; animation:fadeInUp 1s ease forwards; }
+  .hero input { width:85%; max-width:300px; padding:10px 15px; border-radius:25px; border:none; outline:none; }
 
-    /* --- Sections Layout --- */  
-    section { padding: 50px 6%; }  
-    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }  
-    .section-header h3 { font-size: 1.8rem; font-weight: 800; }  
+  @keyframes fadeInDown { 0% {opacity:0; transform:translateY(-20px);} 100%{opacity:1; transform:translateY(0);} }
+  @keyframes fadeInUp { 0% {opacity:0; transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
 
-    /* --- Horizontal Restaurant Slider --- */  
-    .res-slider {  
-        display: flex; overflow-x: auto; gap: 25px; padding-bottom: 20px;  
-        scrollbar-width: none;  
-    }  
-    .res-slider::-webkit-scrollbar { display: none; }  
-    .res-card {  
-        min-width: 320px; background: white; border-radius: var(--radius);  
-        overflow: hidden; cursor: pointer; transition: 0.4s;  
-        box-shadow: var(--shadow-sm);  
-    }  
-    .res-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }  
-    .res-img { width: 100%; height: 180px; object-fit: cover; position: relative; }  
-    .res-promo {  
-        position: absolute; bottom: 10px; left: 10px; background: var(--primary);  
-        color: white; padding: 4px 10px; border-radius: 5px; font-weight: 700; font-size: 0.8rem;  
-    }  
-    .res-details { padding: 18px; }  
-    .res-details h4 { font-size: 1.2rem; margin-bottom: 5px; }  
-    .res-meta { display: flex; gap: 15px; font-size: 0.85rem; font-weight: 600; }  
-    .rating { color: #f1c40f; }  
+  /* Categories Grid */
+  #categoryGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:15px; margin-top:15px; }
+  .cat-strip { border-radius:12px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:0.3s; }
+  .cat-strip:hover { transform:scale(1.03); }
+  .cat-strip img { width:100%; height:100px; object-fit:cover; }
+  .cat-strip h3 { position:absolute; bottom:8px; left:8px; color:#fff; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:5px; font-size:0.9rem; }
 
-    /* --- Vertical Category Cards --- */  
-    .category-grid {  
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));  
-        gap: 20px;  
-    }  
-    .cat-strip {  
-        height: 140px; border-radius: var(--radius); overflow: hidden;  
-        position: relative; cursor: pointer; transition: 0.4s;  
-    }  
-    .cat-strip img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65); transition: 0.5s; }  
-    .cat-strip:hover img { transform: scale(1.1); filter: brightness(0.8); }  
-    .cat-strip h3 {  
-        position: absolute; left: 30px; top: 50%; transform: translateY(-50%);  
-        color: white; font-size: 2.2rem; font-weight: 800; text-transform: uppercase;  
-    }  
+  /* Restaurant Slider */
+  #restaurantSlider { display:flex; overflow-x:auto; padding:10px 0; gap:10px; }
+  .res-card { min-width:180px; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.15); cursor:pointer; flex-shrink:0; }
+  .res-card img { width:100%; height:120px; object-fit:cover; }
+  .res-details { padding:8px; }
+  .res-details h4 { font-size:1rem; margin-bottom:3px; }
+  .res-details p { font-size:0.8rem; color:#777; margin-bottom:5px; }
+  .res-meta { display:flex; font-size:0.7rem; color:#555; gap:5px; align-items:center; }
 
-    /* --- Overlays --- */  
-    .overlay {  
-        position: fixed; inset: 0; background: white; z-index: 2000;  
-        display: none; overflow-y: auto; padding: 100px 6% 50px;  
-        animation: fadeIn 0.4s ease;  
-    }  
-    @keyframes fadeIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }  
-      
-    .close-overlay {  
-        position: fixed; top: 25px; left: 6%; z-index: 2100;  
-        background: var(--secondary); color: white; width: 45px; height: 45px;  
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;  
-        cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);  
-    }  
+  /* Dishes Overlay */
+  .overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; z-index:1200; overflow-y:auto; }
+  .overlay .close-overlay { position:absolute; top:15px; left:15px; color:#fff; font-size:1.5rem; cursor:pointer; }
+  .dish-list { display:grid; grid-template-columns:1fr; gap:10px; padding:20px; margin-top:50px; }
+  .dish-card { background:#fff; border-radius:12px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+  .dish-card img { width:100%; height:150px; object-fit:cover; }
+  .dish-info { padding:10px; }
+  .dish-info h4 { font-size:1rem; margin-bottom:3px; }
+  .dish-info p { font-size:0.8rem; color:#555; margin-bottom:5px; }
+  .add-item-btn { padding:8px 10px; border:none; border-radius:8px; background:var(--primary); color:#fff; cursor:pointer; width:100%; }
 
-    /* --- Dish Items --- */  
-    .dish-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }  
-    .dish-card {  
-        background: white; border: 1px solid #eee; padding: 20px; border-radius: var(--radius);  
-        display: flex; gap: 20px; position: relative; transition: 0.3s;  
-    }  
-    .dish-card:hover { box-shadow: var(--shadow-lg); }  
-    .dish-info { flex: 1; }  
-    .dish-info h4 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text-dark); }  
-    .dish-info p { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; }  
-    .dish-price { font-weight: 800; font-size: 1.1rem; color: var(--primary); }  
-    .dish-image-box { position: relative; width: 130px; height: 130px; }  
-    .dish-image-box img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }  
-    .add-item-btn {  
-        position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);  
-        background: white; color: var(--success); border: 1px solid #ccc;  
-        padding: 6px 22px; border-radius: 8px; font-weight: bold; cursor: pointer;  
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s;  
-    }  
-    .add-item-btn:hover { background: var(--success); color: white; border-color: var(--success); }  
+  /* Cart Panel */
+  .cart-panel { position:fixed; right:-100%; top:0; width:85%; max-width:350px; height:100%; background:#fff; z-index:1300; box-shadow:-3px 0 5px rgba(0,0,0,0.2); transition:0.3s; display:flex; flex-direction:column; }
+  .cart-panel.active { right:0; }
+  .cart-header { padding:12px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; }
+  .cart-items-container { flex:1; overflow-y:auto; padding:10px; }
+  .cart-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f1f1f1; }
+  .checkout-btn { padding:12px; background:var(--secondary); color:#fff; font-weight:600; border:none; border-radius:10px; margin:15px; cursor:pointer; display:flex; justify-content:space-between; }
 
-    /* --- Cart Sidebar --- */  
-    .cart-panel {  
-        position: fixed; top: 0; right: -100%; width: 480px; height: 100%;  
-        background: white; z-index: 3000; box-shadow: -10px 0 50px rgba(0,0,0,0.2);  
-        transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);  
-        padding: 40px; display: flex; flex-direction: column;  
-    }  
-    .cart-panel.active { right: 0; }  
-    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }  
-    .cart-items-container { flex: 1; overflow-y: auto; padding-right: 10px; }  
-    .cart-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px dashed #eee; }  
-    .cart-summary { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-top: 20px; }  
-    .checkout-btn {  
-        width: 100%; padding: 18px; background: var(--success); color: white;  
-        border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800;  
-        margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between;  
-    }  
+  /* Authentication Overlay Skeleton */
+  .auth-card { max-width:350px; margin:80px auto; background:#fff; border-radius:12px; padding:20px; text-align:center; }
+  .auth-card img { border-radius:50%; margin-bottom:15px; }
 
-    /* --- Auth Page --- */  
-    .auth-card {  
-        max-width: 450px; margin: 100px auto; background: white; padding: 40px;  
-        border-radius: 25px; text-align: center; box-shadow: var(--shadow-lg);  
-    }  
-    .google-signin {  
-        background: #fff; color: #757575; border: 1px solid #ddd; padding: 14px 25px;  
-        width: 100%; border-radius: 8px; font-size: 1rem; font-weight: 600;  
-        cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;  
-        margin-top: 30px; transition: 0.3s;  
-    }  
-    .google-signin:hover { background: #f1f1f1; box-shadow: var(--shadow-sm); }  
-
-        /* --- Responsive (Updated for Mobile Profile Icon) --- */  
-    @media (max-width: 600px) {  
-        header { 
-            padding: 0 4% !important; 
-            gap: 10px; 
-        }
-
-        /* Location hide karne se profile ke liye jagah ban jayegi */
-        .location-tag { 
-            display: none !important; 
-        }
-
-        .logo-box h1 { 
-            font-size: 1.2rem; 
-        }
-
-        .nav-actions { 
-            gap: 12px; 
-        }
-
-        #nav-user-img { 
-            width: 30px !important; 
-            height: 30px !important; 
-        }
-
-        .cart-panel { width: 100%; }  
-        .hero { height: 400px; }  
-        .hero-content h2 { font-size: 2.2rem; }  
-        .cat-strip { height: 110px; }  
-        .cat-strip h3 { font-size: 1.4rem; }  
-        .dish-list { grid-template-columns: 1fr; }  
-    }
-    
-
-    /* Footer */  
-    footer { background: var(--secondary); color: white; padding: 80px 6%; margin-top: 50px; }  
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; }  
-    .footer-logo h2 { color: var(--primary); font-size: 2rem; margin-bottom: 15px; }  
-    .footer-links p { margin-bottom: 10px; color: #999; cursor: pointer; transition: 0.3s; }  
-    .footer-links p:hover { color: var(--primary); padding-left: 5px; }  
-    .app-badges { display: flex; gap: 10px; margin-top: 20px; }  
-    .app-badges img { height: 40px; cursor: pointer; }  
 </style>
+</head>
+<body>
 
-</head>  
-<body>   <header>  
-    <div class="logo-box" onclick="location.reload()">  
-        <img src="https://cdn-icons-png.flaticon.com/512/1046/1046788.png" alt="Logo" style="width: 30px;">  
-        <h1>GENZ FOOD</h1>  
-    </div>  
-
-    <div class="location-tag">  
-        <span>Delivering to</span>  
-        <b><i class="fas fa-location-dot"></i> Ajara, Maharashtra</b>  
-    </div>  
-
-    <div class="nav-actions">  
-        <div class="nav-item" onclick="document.getElementById('home').scrollIntoView()"><i class="fas fa-search"></i></div>  
-        <div class="nav-item" onclick="toggleCart()">  
-            <i class="fas fa-shopping-bag"></i>  
-            <span class="badge" id="cart-count">0</span>  
-        </div>  
-        <div id="user-trigger" onclick="toggleAuth()" style="display: flex; align-items: center;">  
-            <img id="nav-user-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">  
-        </div>  
-    </div>  
+<!-- ========== Header ========== -->
+<header>
+  <div class="logo">GENZ FOOD</div>
+  <div class="nav-icons">
+    <div class="hamburger" onclick="document.getElementById('navDrawer').classList.toggle('active')">
+      <div></div><div></div><div></div>
+    </div>
+    <i class="fas fa-search" onclick="document.querySelector('.hero input').focus()"></i>
+    <i class="fas fa-shopping-cart" onclick="toggleCart()"><span id="cart-count" style="background:red;color:#fff;border-radius:50%;padding:1px 6px;font-size:0.7rem;position:absolute;top:-5px;right:-10px;">0</span></i>
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="nav-user-img" style="width:30px;height:30px;border-radius:50%;cursor:pointer;" onclick="toggleAuth()">
+  </div>
 </header>
-    
-<section class="hero" id="home">  
-    <div class="hero-bg"></div>  
-    <div class="hero-content">  
-        <h2 class="animate__animated animate__fadeInUp">GENZ FOOD AJARA</h2>  
-        <p class="animate__animated animate__fadeInUp animate__delay-1s">Fastest delivery from your favorite local kitchens.</p>  
-        <div class="search-container animate__animated animate__fadeInUp animate__delay-2s">  
-            <input type="text" id="searchInput" placeholder="Search for 'Pizza', 'Chicken', 'The Ajara Grill'..." onkeyup="handleQuickSearch(event)">  
-            <button class="search-btn">Search</button>  
-        </div>  
-    </div>  
-</section>  
 
-<section>  
-    <div class="section-header">  
-        <h3>Top Restaurants in Ajara</h3>  
-        <span style="color: var(--primary); font-weight: bold; cursor: pointer;">View all <i class="fas fa-arrow-right"></i></span>  
-    </div>  
-    <div class="res-slider" id="restaurantSlider">  
-        </div>  
-</section>  
+<!-- ========== Navigation Drawer ========== -->
+<div id="navDrawer">
+  <h3>Menu</h3>
+  <p onclick="openOverlay('authOverlay')">My Orders</p>
+  <p onclick="openOverlay('settingsOverlay')">Settings</p>
+  <p onclick="openOverlay('faqOverlay')">FAQ</p>
+  <p onclick="openOverlay('contactOverlay')">Contact Us</p>
+</div>
 
-<section>  
-    <div class="section-header">  
-        <h3>Explore Categories</h3>  
-    </div>  
-    <div class="category-grid" id="categoryGrid">  
-        </div>  
-</section>  
+<!-- ========== Hero Section ========== -->
+<section class="hero">
+  <h1>GENZ FOOD AJARA</h1>
+  <p>Premium food delivered at your doorstep</p>
+  <input type="text" placeholder="Search for dishes or restaurants" onkeyup="handleQuickSearch(event)">
+</section>
 
-<div id="dishesOverlay" class="overlay">  
-    <div class="close-overlay" onclick="closeOverlay('dishesOverlay')"><i class="fas fa-arrow-left"></i></div>  
-    <div style="text-align:center; margin-bottom: 50px;">  
-        <h1 id="overlayTitle" style="font-size: 3rem; font-weight: 800; color: var(--secondary);">Category</h1>  
-        <p style="color: var(--text-gray);">Premium quality dishes curated just for you.</p>  
-    </div>  
-    <div class="dish-list" id="dishGrid">  
-        </div>  
-</div>  
+<!-- ========== Restaurant Slider ========== -->
+<div id="restaurantSlider"></div>
 
-<div id="authOverlay" class="overlay">  
-    <div class="close-overlay" onclick="closeOverlay('authOverlay')"><i class="fas fa-times"></i></div>  
-    <div class="auth-card">  
-        <div id="logged-out-view">  
-            <img src="https://cdn-icons-png.flaticon.com/512/3456/3456426.png" width="80" style="margin-bottom: 20px;">  
-            <h2>Welcome to Genz Food</h2>  
-            <p style="color:#777; margin-top:10px;">Login to track your orders and enjoy exclusive coupons.</p>  
-            <button class="google-signin" id="googleLoginBtn">  
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">  
-                Continue with Google  
-            </button>  
-        </div>  
-        <div id="logged-in-view" style="display:none;">  
-            <img id="profile-img-lg" src="" style="width:120px; height:120px; border-radius:50%; border:5px solid var(--primary-light);">  
-            <h2 id="user-name-display" style="margin-top: 15px;">GenZ User</h2>  
-            <p id="user-email-display" style="color:#666;"></p>  
-              
-            <div style="text-align:left; margin-top:40px; border-top:1px solid #eee; padding-top:20px;">  
-                <h3>My Order History</h3>  
-                <div id="history-container" style="margin-top:15px; color:#888;">You haven't ordered anything yet. Let's eat!</div>  
-            </div>  
-              
-            <button onclick="signOutUser()" style="margin-top:50px; background:none; border:none; color:red; font-weight:bold; cursor:pointer;">Logout</button>  
-        </div>  
-    </div>  
-</div>  
+<!-- ========== Categories Grid ========== -->
+<div id="categoryGrid"></div>
 
-<div class="cart-panel" id="cartPanel">  
-    <div class="cart-header">  
-        <h2>Your Cart</h2>  
-        <i class="fas fa-times" style="font-size:1.5rem; cursor:pointer;" onclick="toggleCart()"></i>  
-    </div>  
-    <div class="cart-items-container" id="cartItemsList">  
-        </div>  
-    <div class="cart-summary">  
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">  
-            <span>Item Total</span><span id="subtotalVal">₹0</span>  
-        </div>  
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">  
-            <span>Delivery (Ajara)</span><span id="deliveryVal">₹0</span>  
-        </div>  
-        <div style="margin: 15px 0;">  
-            <input type="text" id="promoInput" placeholder="Promo Code (AJARA50)" style="width:70%; padding:10px; border:1px solid #ddd; border-radius:8px;">  
-            <button onclick="applyPromo()" style="width:25%; padding:10px; background:var(--secondary); color:white; border:none; border-radius:8px; cursor:pointer;">Apply</button>  
-        </div>  
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.4rem; color:var(--text-dark);">  
-            <span>Grand Total</span><span id="totalVal">₹0</span>  
-        </div>  
-        <button class="checkout-btn" onclick="processCheckout()">  
-            <span>PLACE ORDER</span>  
-            <span id="finalBtnTotal">₹0</span>  
-        </button>  
-    </div>  
-</div>  
+<!-- ========== Dishes Overlay ========== -->
+<div id="dishesOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('dishesOverlay')"><i class="fas fa-arrow-left"></i></div>
+  <div style="text-align:center; margin-bottom: 50px;">
+    <h1 id="overlayTitle" style="font-size: 2rem; font-weight:800; color:#fff;">Category</h1>
+  </div>
+  <div class="dish-list" id="dishGrid"></div>
+</div>
 
-<footer>  
-    <div class="footer-grid">  
-        <div class="footer-logo">  
-            <h2>GENZ FOOD</h2>  
-            <p>Curating the best dining experiences in Ajara. Delivering happiness to your doorstep.</p>  
-            <div class="app-badges">  
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">  
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg">  
-            </div>  
-        </div>  
-        <div class="footer-links">  
-            <h4>Explore</h4>  
-            <p>About GenZ Food</p>  
-            <p>Partner with us</p>  
-            <p>Contact Support</p>  
-            <p>Terms of Service</p>  
-        </div>  
-        <div class="footer-links">  
-            <h4>Support</h4>  
-            <p>Help Center</p>  
-            <p>FAQ - Delivery</p>  
-            <p>Refund Policy</p>  
-            <p>Privacy Policy</p>  
-        </div>  
-    </div>  
-    <div style="margin-top: 50px; border-top: 1px solid #333; padding-top: 30px; text-align: center; color: #666; font-size: 0.8rem;">  
-        &copy; 2026 Genz Food Ajara. All rights reserved. Built for the next generation.  
-    </div>  
-</footer>  
+<!-- ========== Cart Panel ========== -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <i class="fas fa-times" style="cursor:pointer;" onclick="toggleCart()"></i>
+  </div>
+  <div class="cart-items-container" id="cartItemsList"></div>
+  <div style="padding:15px;">
+    <div style="display:flex;justify-content:space-between;">Item Total: <span id="subtotalVal">₹0</span></div>
+    <div style="display:flex;justify-content:space-between;">Delivery: <span id="deliveryVal">₹0</span></div>
+    <input type="text" id="promoInput" placeholder="Promo Code" style="width:65%;padding:8px;border-radius:8px;border:1px solid #ddd;">
+    <button onclick="applyPromo()" style="width:30%;background:var(--secondary);color:#fff;border:none;border-radius:8px;cursor:pointer;">Apply</button>
+    <div style="display:flex;justify-content:space-between;font-weight:800;margin-top:15px;">Grand Total: <span id="totalVal">₹0</span></div>
+    <button class="checkout-btn" onclick="processCheckout()">Place Order <span id="finalBtnTotal">₹0</span></button>
+  </div>
+</div>
 
-<script type="module">  
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";  
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";  
+<!-- ========== Authentication Overlay Skeleton ========== -->
+<div id="authOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('authOverlay')"><i class="fas fa-times"></i></div>
+  <div class="auth-card">
+    <div id="logged-out-view">
+      <img src="https://cdn-icons-png.flaticon.com/512/3456/3456426.png" width="80">
+      <h2>Welcome to Genz Food</h2>
+      <p>Login to track your orders and enjoy exclusive coupons.</p>
+      <button id="googleLoginBtn" style="padding:10px 15px;border-radius:8px;border:none;background:#4285f4;color:#fff;display:flex;align-items:center;gap:5px;cursor:pointer;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20"> Continue with Google
+      </button>
+    </div>
+    <div id="logged-in-view" style="display:none;">
+      <img id="profile-img-lg" src="" style="width:120px;height:120px;border-radius:50%;border:4px solid var(--primary-light);">
+      <h2 id="user-name-display"></h2>
+      <p id="user-email-display"></p>
+      <!-- Placeholders for preferences, orders, settings will be dynamically added here -->
+    </div>
+  </div>
+</div>
+    <script type="module">
+  // ==================== Firebase Initialization ====================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // 1. Firebase Configuration (Aapki Config)
-        const firebaseConfig = {
-            apiKey: "AIzaSyAY3G265zTP5Qpf9EoGlGy2sSrVYGI4LGk",
-            authDomain: "genzfood2-96e43.firebaseapp.com",
-            projectId: "genzfood2-96e43",
-            storageBucket: "genzfood2-96e43.firebasestorage.app",
-            messagingSenderId: "410241064931",
-            appId: "1:410241064931:web:ab1454346c3d28bba30ad6"
-        };
+  // ----- Your Firebase Config -----
+  const firebaseConfig = {
+    apiKey: "AIzaSyAY3G265zTP5Qpf9EoGlGy2sSrVYGI4LGk",
+    authDomain: "genzfood2-96e43.firebaseapp.com",
+    projectId: "genzfood2-96e43",
+    storageBucket: "genzfood2-96e43.firebasestorage.app",
+    messagingSenderId: "410241064931",
+    appId: "1:410241064931:web:ab1454346c3d28bba30ad6"
+  };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
 
-        // 2. Data Structure
-        const categories = [
-            { id: "Pizza", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80" },
-            { id: "Burger", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" },
-            { id: "Shawarma", img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80" },
-            { id: "Pasta", img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=800&q=80" },
-            { id: "Salads", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80" },
-            { id: "Sandwich", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80" },
-            { id: "Chicken", img: "https://images.unsplash.com/photo-1562967914-608f82629710?w=800&q=80" },
-            { id: "Snacks", img: "https://images.unsplash.com/photo-1566740933430-b5e70b06d2d5?w=800&q=80" },
-            { id: "Beverages", img: "https://images.unsplash.com/photo-1544145945-f904253d0c71?w=800&q=80" },
-            { id: "Desserts", img: "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80" }
-        ];
+  // ==================== Data Setup ====================
+  const categories = [
+    { id:"Pizza", img:"https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80" },
+    { id:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" },
+    { id:"Shawarma", img:"https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80" },
+    { id:"Pasta", img:"https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=800&q=80" },
+    { id:"Salads", img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80" },
+    { id:"Desserts", img:"https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=800&q=80" }
+  ];
 
-        const restaurants = [
-            { name: "The Ajara Grill", rating: "4.8", time: "25 min", offer: "60% OFF", tags: "Chicken, Snacks", img: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&q=80" },
-            { name: "Italiano Hub", rating: "4.2", time: "35 min", offer: "Free Delivery", tags: "Pizza, Pasta", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" },
-            { name: "Burger Kingz", rating: "4.5", time: "20 min", offer: "Buy 1 Get 1", tags: "Burger, Snacks", img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80" },
-            { name: "Sweet Ajara", rating: "4.9", time: "15 min", offer: "Flat ₹50 OFF", tags: "Desserts, Beverages", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80" },
-            { name: "Green Garden", rating: "4.0", time: "40 min", offer: "10% OFF", tags: "Salads, Healthy", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" }
-        ];
+  const restaurants = [
+    { name:"The Ajara Grill", rating:"4.8", time:"25 min", offer:"60% OFF", tags:"Chicken, Snacks", img:"https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&q=80" },
+    { name:"Italiano Hub", rating:"4.2", time:"35 min", offer:"Free Delivery", tags:"Pizza, Pasta", img:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" },
+    { name:"Burger Kingz", rating:"4.5", time:"20 min", offer:"Buy 1 Get 1", tags:"Burger, Snacks", img:"https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80" },
+    { name:"Sweet Ajara", rating:"4.9", time:"15 min", offer:"Flat ₹50 OFF", tags:"Desserts, Beverages", img:"https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80" }
+  ];
 
-        let allDishes = [];
-        categories.forEach(cat => {
-            for(let i=1; i<=10; i++) {
-                allDishes.push({
-                    id: `${cat.id}-${i}`,
-                    name: `${cat.id} ${['Signature', 'Classic', 'Spicy', 'GenZ Special', 'Chef Choice'][i%5]} ${i}`,
-                    price: [149, 199, 299, 120, 450][i%5],
-                    desc: `Our high-rated ${cat.id} made with farm-fresh ingredients. Try it to believe it!`,
-                    cat: cat.id,
-                    img: `https://source.unsplash.com/400x400/?${cat.id},food&sig=${cat.id}${i}`
-                });
-            }
-        });
+  let allDishes = [];
+  categories.forEach(cat => {
+    for(let i=1;i<=10;i++){
+      allDishes.push({
+        id:`${cat.id}-${i}`,
+        name:`${cat.id} ${['Classic','Spicy','Signature','GenZ Special','Chef Choice'][i%5]} ${i}`,
+        price:[149,199,299,120,450][i%5],
+        desc:`Delicious ${cat.id} made fresh just for you.`,
+        cat:cat.id,
+        img:`https://source.unsplash.com/400x400/?${cat.id},food&sig=${cat.id}${i}`
+      });
+    }
+  });
 
-        // 3. Application State
-        let cart = JSON.parse(localStorage.getItem('genz_food_cart')) || [];
-        let user = null;
-        let discount = 0;
+  // ==================== Application State ====================
+  let cart = JSON.parse(localStorage.getItem('genz_food_cart')) || [];
+  let user = null;
+  let discount = 0;
 
-        // 4. Initializers
-        window.onload = () => {
-            renderHome();
-            updateCartUI();
-        };
+  // ==================== DOM Elements ====================
+  const categoryGrid = document.getElementById('categoryGrid');
+  const restaurantSlider = document.getElementById('restaurantSlider');
+  const cartItemsList = document.getElementById('cartItemsList');
+  const cartCount = document.getElementById('cart-count');
 
-        function renderHome() {
-            // Render Restaurants
-            const resSlider = document.getElementById('restaurantSlider');
-            resSlider.innerHTML = restaurants.map(r => `
-                <div class="res-card" onclick="openCategory('${r.tags.split(',')[0].trim()}')">
-                    <div class="res-img">
-                        <img src="${r.img}" style="width:100%; height:100%; object-fit:cover;">
-                        <span class="res-promo">${r.offer}</span>
-                    </div>
-                    <div class="res-details">
-                        <h4>${r.name}</h4>
-                        <p style="color:#777; font-size:0.8rem; margin-bottom:8px;">${r.tags}</p>
-                        <div class="res-meta">
-                            <span class="rating"><i class="fas fa-star"></i> ${r.rating}</span>
-                            <span>•</span>
-                            <span>${r.time}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+  // ==================== Render Functions ====================
+  const renderCategories = () => {
+    categoryGrid.innerHTML = categories.map(c => `
+      <div class="cat-strip" onclick="openCategory('${c.id}')">
+        <img src="${c.img}" alt="${c.id}">
+        <h3>${c.id}</h3>
+      </div>
+    `).join('');
+  };
 
-            // Render Categories
-            const catGrid = document.getElementById('categoryGrid');
-            catGrid.innerHTML = categories.map(c => `
-                <div class="cat-strip" onclick="openCategory('${c.id}')">
-                    <img src="${c.img}" alt="${c.id}">
-                    <h3>${c.id}</h3>
-                </div>
-            `).join('');
-        }
+  const renderRestaurants = () => {
+    restaurantSlider.innerHTML = restaurants.map(r => `
+      <div class="res-card" onclick="openCategory('${r.tags.split(',')[0].trim()}')">
+        <img src="${r.img}">
+        <div class="res-details">
+          <h4>${r.name}</h4>
+          <p>${r.tags}</p>
+          <div class="res-meta"><span class="rating"><i class="fas fa-star"></i> ${r.rating}</span> • <span>${r.time}</span></div>
+          <small style="color:var(--primary)">${r.offer}</small>
+        </div>
+      </div>
+    `).join('');
+  };
 
-        // 5. User Interaction Functions
-        window.openCategory = (catId) => {
-            const title = document.getElementById('overlayTitle');
-            const grid = document.getElementById('dishGrid');
-            const overlay = document.getElementById('dishesOverlay');
+  // ==================== Category & Dishes ====================
+  window.openCategory = (catId) => {
+    const overlay = document.getElementById('dishesOverlay');
+    const grid = document.getElementById('dishGrid');
+    document.getElementById('overlayTitle').innerText = catId;
+    const filtered = allDishes.filter(d => d.cat===catId);
+    grid.innerHTML = filtered.map(d => `
+      <div class="dish-card">
+        <img src="${d.img}">
+        <div class="dish-info">
+          <h4>${d.name}</h4>
+          <p>${d.desc}</p>
+          <div style="font-weight:700;">₹${d.price}</div>
+          <button class="add-item-btn" onclick="addToCart('${d.id}')">ADD</button>
+        </div>
+      </div>
+    `).join('');
+    overlay.style.display='block';
+    window.scrollTo(0,0);
+  };
 
-            title.innerText = catId;
-            const filtered = allDishes.filter(d => d.cat === catId);
-            
-            grid.innerHTML = filtered.map(dish => `
-                <div class="dish-card">
-                    <div class="dish-info">
-                        <h4>${dish.name}</h4>
-                        <div class="dish-price">₹${dish.price}</div>
-                        <p>${dish.desc}</p>
-                    </div>
-                    <div class="dish-image-box">
-                        <img src="${dish.img}">
-                        <button class="add-item-btn" onclick="addToCart('${dish.id}')">ADD</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            overlay.style.display = 'block';
-            window.scrollTo(0,0);
-        };
+  window.closeOverlay = (id) => document.getElementById(id).style.display='none';
 
-        window.addToCart = (id) => {
-            const product = allDishes.find(p => p.id === id);
-            cart.push(product);
-            localStorage.setItem('genz_food_cart', JSON.stringify(cart));
-            updateCartUI();
-            
-            confetti({
-                particleCount: 50,
-                spread: 70,
-                origin: { y: 0.9 },
-                colors: ['#ff5200', '#60b246', '#ffffff']
-            });
-        };
+  // ==================== Cart Logic ====================
+  window.addToCart = (id) => {
+    const item = allDishes.find(d=>d.id===id);
+    cart.push(item);
+    localStorage.setItem('genz_food_cart',JSON.stringify(cart));
+    updateCartUI();
+    // Confetti
+    confetti({ particleCount: 40, spread:70, origin:{y:0.9}, colors:['#ff5200','#60b246','#fff']});
+  };
 
-        function updateCartUI() {
-            const count = document.getElementById('cart-count');
-            const list = document.getElementById('cartItemsList');
-            count.innerText = cart.length;
+  window.removeFromCart = (idx) => { cart.splice(idx,1); localStorage.setItem('genz_food_cart',JSON.stringify(cart)); updateCartUI(); };
 
-            if(cart.length === 0) {
-                list.innerHTML = `<div style="text-align:center; padding:100px 0;"><i class="fas fa-shopping-basket" style="font-size:4rem; color:#f1f1f1;"></i><p style="color:#999; margin-top:10px;">Your cart is empty!</p></div>`;
-            } else {
-                list.innerHTML = cart.map((item, idx) => `
-                    <div class="cart-row">
-                        <div>
-                            <p style="font-weight:600;">${item.name}</p>
-                            <small style="color:#777;">₹${item.price}</small>
-                        </div>
-                        <i class="fas fa-trash" style="color:#ff4d4d; cursor:pointer;" onclick="removeFromCart(${idx})"></i>
-                    </div>
-                `).join('');
-            }
+  window.updateCartUI = () => {
+    cartCount.innerText = cart.length;
+    if(cart.length===0){
+      cartItemsList.innerHTML=`<div style="text-align:center;padding:50px 0;"><i class="fas fa-shopping-basket" style="font-size:3rem;color:#ccc"></i><p>Your cart is empty!</p></div>`;
+    }else{
+      cartItemsList.innerHTML=cart.map((item,idx)=>`
+        <div class="cart-row">
+          <div>
+            <p>${item.name}</p>
+            <small>₹${item.price}</small>
+          </div>
+          <i class="fas fa-trash" style="color:red;cursor:pointer" onclick="removeFromCart(${idx})"></i>
+        </div>
+      `).join('');
+    }
+    let subtotal = cart.reduce((acc,i)=>acc+i.price,0);
+    let delivery = subtotal>0 && subtotal<499 ? 30 : 0;
+    let total = (subtotal+delivery)-discount;
+    document.getElementById('subtotalVal').innerText=`₹${subtotal}`;
+    document.getElementById('deliveryVal').innerText=delivery===0?'FREE':`₹${delivery}`;
+    document.getElementById('totalVal').innerText=`₹${total<0?0:total}`;
+    document.getElementById('finalBtnTotal').innerText=`₹${total<0?0:total}`;
+  };
 
-            let sub = cart.reduce((total, item) => total + item.price, 0);
-            let del = (sub > 0 && sub < 499) ? 30 : 0;
-            let grand = (sub + del) - discount;
+  window.toggleCart = () => document.getElementById('cartPanel').classList.toggle('active');
 
-            document.getElementById('subtotalVal').innerText = `₹${sub}`;
-            document.getElementById('deliveryVal').innerText = sub > 0 ? (del === 0 ? "FREE" : `₹${del}`) : `₹0`;
-            document.getElementById('totalVal').innerText = `₹${grand < 0 ? 0 : grand}`;
-            document.getElementById('finalBtnTotal').innerText = `₹${grand < 0 ? 0 : grand}`;
-        }
+  window.applyPromo = () => {
+    const code = document.getElementById('promoInput').value.toUpperCase();
+    if(code==="AJARA50"){ discount=50; alert("₹50 Discount Applied"); }
+    else if(code==="GENZ10"){ discount=10; alert("₹10 Discount Applied"); }
+    else { discount=0; alert("Invalid Code"); }
+    updateCartUI();
+  };
 
-        window.removeFromCart = (idx) => {
-            cart.splice(idx, 1);
-            localStorage.setItem('genz_food_cart', JSON.stringify(cart));
-            updateCartUI();
-        };
+  // ==================== Quick Search ====================
+  window.handleQuickSearch = (e) => {
+    const q = e.target.value.toLowerCase();
+    if(q.length>2){
+      const found = categories.find(c=>c.id.toLowerCase().includes(q));
+      if(found) openCategory(found.id);
+    }
+  };
 
-        window.toggleCart = () => {
-            document.getElementById('cartPanel').classList.toggle('active');
-        };
+  // ==================== Google Sign-In ====================
+  document.getElementById('googleLoginBtn').onclick=async()=>{
+    try{
+      const res = await signInWithPopup(auth,provider);
+      user=res.user;
+    }catch(err){ console.error(err); alert("Login Failed"); }
+  };
 
-        window.closeOverlay = (id) => {
-            document.getElementById(id).style.display = 'none';
-        };
+  window.signOutUser = ()=>signOut(auth).then(()=>location.reload());
 
-        window.applyPromo = () => {
-            const code = document.getElementById('promoInput').value.toUpperCase();
-            if(code === "AJARA50") {
-                discount = 50;
-                alert("Boom! ₹50 Discount Applied.");
-            } else if(code === "GENZ10") {
-                discount = 10;
-                alert("₹10 Discount Applied.");
-            } else {
-                alert("Invalid Code");
-                discount = 0;
-            }
-            updateCartUI();
-        };
+  onAuthStateChanged(auth, async(firebaseUser)=>{
+    const loginView = document.getElementById('logged-in-view');
+    const logoutView = document.getElementById('logged-out-view');
+    const navImg = document.getElementById('nav-user-img');
+    if(firebaseUser){
+      user=firebaseUser;
+      loginView.style.display='block';
+      logoutView.style.display='none';
+      navImg.src=user.photoURL;
+      document.getElementById('profile-img-lg').src=user.photoURL;
+      document.getElementById('user-name-display').innerText=user.displayName;
+      document.getElementById('user-email-display').innerText=user.email;
+      // Load preferences from Firestore
+      const docRef = doc(db,"users",user.uid);
+      const docSnap = await getDoc(docRef);
+      if(docSnap.exists()){
+        console.log("User data:",docSnap.data());
+      }else{
+        // first login: show task selection
+        showTaskSelection();
+      }
+    }else{
+      user=null;
+      loginView.style.display='none';
+      logoutView.style.display='block';
+      navImg.src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+    }
+  });
 
-        // 6. Checkout & Authentication Logic
-        window.toggleAuth = () => {
-            document.getElementById('authOverlay').style.display = 'block';
-        };
+  // ==================== Preferences Task ====================
+  function showTaskSelection(){
+    const taskHTML = `
+      <div id="taskSelection" style="text-align:left;margin-top:20px;">
+        <h3>Select Your Food Preferences</h3>
+        <div style="display:flex;gap:10px;margin:10px 0;">
+          <button onclick="selectPref(this)">Pizza</button>
+          <button onclick="selectPref(this)">Burger</button>
+          <button onclick="selectPref(this)">Salads</button>
+          <button onclick="selectPref(this)">Desserts</button>
+        </div>
+        <h3>Select Preferred Restaurants</h3>
+        <div style="display:flex;gap:10px;margin:10px 0;">
+          <button onclick="selectPref(this)">The Ajara Grill</button>
+          <button onclick="selectPref(this)">Italiano Hub</button>
+          <button onclick="selectPref(this)">Burger Kingz</button>
+          <button onclick="selectPref(this)">Sweet Ajara</button>
+        </div>
+        <button onclick="savePrefs()" style="margin-top:10px;background:var(--secondary);color:#fff;padding:8px;border:none;border-radius:8px;">Save Preferences</button>
+      </div>
+    `;
+    document.getElementById('logged-in-view').insertAdjacentHTML('beforeend',taskHTML);
+  }
 
-        // Google Sign In
-        document.getElementById('googleLoginBtn').onclick = async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                user = result.user;
-                // UI automatically updates via onAuthStateChanged
-            } catch (err) {
-                console.error(err);
-                alert("Login Failed. Please try again.");
-            }
-        };
+  let selectedPrefs=[];
+  function selectPref(el){
+    el.classList.toggle('selected');
+    const val = el.innerText;
+    if(selectedPrefs.includes(val)) selectedPrefs = selectedPrefs.filter(x=>x!==val);
+    else selectedPrefs.push(val);
+  }
 
-        window.signOutUser = () => {
-            signOut(auth).then(() => location.reload());
-        };
+  async function savePrefs(){
+    if(!user) return;
+    await setDoc(doc(db,"users",user.uid),{preferences:selectedPrefs},{merge:true});
+    alert("Preferences saved!");
+    document.getElementById('taskSelection').remove();
+  }
 
-        onAuthStateChanged(auth, (firebaseUser) => {
-            const loginView = document.getElementById('logged-in-view');
-            const logoutView = document.getElementById('logged-out-view');
-            const navImg = document.getElementById('nav-user-img');
+  // ==================== Checkout ====================
+  window.processCheckout=()=>{
+    if(cart.length===0)return alert("Cart empty!");
+    if(!user) return document.getElementById('authOverlay').style.display='block';
+    let orderText=cart.map(i=>`• ${i.name} - ₹${i.price}`).join('%0A');
+    let total=document.getElementById('totalVal').innerText;
+    let whatsappMsg=`*GENZ FOOD - NEW ORDER*%0A%0A*Customer:* ${user.displayName}%0A*Email:* ${user.email}%0A%0A*Items Ordered:*%0A${orderText}%0A%0A*Total:* ${total}`;
+    window.open(`https://wa.me/917385009275?text=${whatsappMsg}`,'_blank');
+    // Reset cart
+    cart=[]; localStorage.setItem('genz_food_cart','[]'); updateCartUI(); toggleCart(); alert("Order placed successfully!");
+  };
 
-            if(firebaseUser) {
-                user = firebaseUser;
-                loginView.style.display = 'block';
-                logoutView.style.display = 'none';
-                navImg.src = user.photoURL;
-                document.getElementById('profile-img-lg').src = user.photoURL;
-                document.getElementById('user-name-display').innerText = user.displayName;
-                document.getElementById('user-email-display').innerText = user.email;
-            } else {
-                user = null;
-                loginView.style.display = 'none';
-                logoutView.style.display = 'block';
-                navImg.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-            }
-        });
+  // ==================== Initialize ====================
+  window.onload = () => { renderCategories(); renderRestaurants(); updateCartUI(); };
+      </script>
+<!-- ==================== Footer ==================== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-logo">
+      <h2>GENZ FOOD</h2>
+      <p>Curating the best dining experiences in Ajara. Delivering happiness to your doorstep.</p>
+      <div class="app-badges">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="120">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" width="120">
+      </div>
+    </div>
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <p onclick="openOverlay('aboutOverlay')">About GenZ Food</p>
+      <p>Partner with us</p>
+      <p onclick="openOverlay('contactOverlay')">Contact Support</p>
+      <p onclick="openOverlay('privacyOverlay')">Terms of Service</p>
+    </div>
+    <div class="footer-links">
+      <h4>Support</h4>
+      <p onclick="openOverlay('faqOverlay')">FAQ - Delivery</p>
+      <p>Help Center</p>
+      <p onclick="openOverlay('privacyOverlay')">Privacy Policy</p>
+      <p onclick="openOverlay('rightOverlay')">Right Our Policy</p>
+    </div>
+  </div>
+  <div style="margin-top:50px;border-top:1px solid #333;padding-top:30px;text-align:center;color:#666;font-size:0.8rem;">
+    &copy; 2026 Genz Food Ajara. All rights reserved. Built for the next generation.
+  </div>
+</footer>
 
-        window.processCheckout = () => {
-            if(cart.length === 0) return alert("Cart is empty!");
-            if(!user) return toggleAuth();
+<!-- ==================== Overlays ==================== -->
+<div id="faqOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('faqOverlay')"><i class="fas fa-times"></i></div>
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-item"><b>1. What is the delivery time?</b><p>Typically 20–40 minutes depending on location.</p></div>
+  <div class="faq-item"><b>2. Can I track my order?</b><p>Yes, after checkout you can track via WhatsApp.</p></div>
+  <div class="faq-item"><b>3. How do I apply promo codes?</b><p>Enter code in cart panel and click Apply.</p></div>
+  <div class="faq-item"><b>4. Do you have refunds?</b><p>Yes, contact support for refund policy.</p></div>
+  <div class="faq-item"><b>5. Can I order from multiple restaurants?</b><p>Currently one restaurant per checkout.</p></div>
+  <div class="faq-item"><b>6. Is my data safe?</b><p>All user info is stored securely in Firebase.</p></div>
+</div>
 
-            let orderText = cart.map(i => `• ${i.name} - ₹${i.price}`).join('%0A');
-            let total = document.getElementById('totalVal').innerText;
-            
-            let whatsappMsg = `*GENZ FOOD - NEW ORDER*%0A%0A*Customer:* ${user.displayName}%0A*Contact:* ${user.email}%0A%0A*Items Ordered:*%0A${orderText}%0A%0A--------------------%0A*Total Amount:* ${total}%0A--------------------%0A%0A_Deliver to Ajara, Maharashtra._`;
-            
-            window.open(`https://wa.me/917385009275?text=${whatsappMsg}`, '_blank');
-            
-            // Success reset
-            cart = [];
-            localStorage.setItem('genz_food_cart', '[]');
-            updateCartUI();
-            toggleCart();
-            alert("Order placed successfully! Redirecting to WhatsApp...");
-        };
+<div id="contactOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('contactOverlay')"><i class="fas fa-times"></i></div>
+  <h2>Contact Us</h2>
+  <form id="contactForm" style="display:flex;flex-direction:column;gap:10px;">
+    <input type="text" id="contactName" placeholder="Your Name" required>
+    <input type="email" id="contactEmail" placeholder="Your Email" required>
+    <input type="text" id="contactPhone" placeholder="Phone Number" required>
+    <textarea id="contactHelp" placeholder="How can we help you?" rows="4" required></textarea>
+    <button type="submit" style="background:var(--secondary);color:#fff;padding:10px;border:none;border-radius:8px;">Send</button>
+  </form>
+</div>
 
-        window.handleQuickSearch = (e) => {
-            const query = e.target.value.toLowerCase();
-            if(query.length > 2) {
-                const found = categories.find(c => c.id.toLowerCase().includes(query));
-                if(found) openCategory(found.id);
-            }
-        };
+<div id="privacyOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('privacyOverlay')"><i class="fas fa-times"></i></div>
+  <h2>Privacy Policy</h2>
+  <p>Your privacy is important to us. All data is securely stored in Firebase and never shared with third parties without consent.</p>
+</div>
 
-    </script>
-</body>
-</html>
+<div id="rightOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('rightOverlay')"><i class="fas fa-times"></i></div>
+  <h2>Right Our Policy</h2>
+  <p>All users have the right to access, update, and delete their personal data at any time. Contact us to exercise your rights.</p>
+</div>
+
+<div id="aboutOverlay" class="overlay">
+  <div class="close-overlay" onclick="closeOverlay('aboutOverlay')"><i class="fas fa-times"></i></div>
+  <h2>About GENZ FOOD</h2>
+  <p>GENZ FOOD Ajara brings the finest cuisines from local and international restaurants directly to your doorstep. Experience premium dining online.</p>
+</div>
+
+<!-- ==================== Settings / Dark Mode ==================== -->
+<script>
+  const body = document.body;
+  let darkMode = false;
+
+  function toggleDarkMode(){
+    darkMode = !darkMode;
+    if(darkMode) body.classList.add('dark-mode');
+    else body.classList.remove('dark-mode');
+  }
+
+  document.getElementById('darkToggle').onclick = toggleDarkMode;
+
+  // ==================== Contact Form Firestore ====================
+  document.getElementById('contactForm').onsubmit=async(e)=>{
+    e.preventDefault();
+    const name=document.getElementById('contactName').value;
+    const email=document.getElementById('contactEmail').value;
+    const phone=document.getElementById('contactPhone').value;
+    const help=document.getElementById('contactHelp').value;
+    try{
+      await addDoc(collection(db,"contacts"),{name,email,phone,help,timestamp:new Date()});
+      alert("Your query has been sent!");
+      document.getElementById('contactForm').reset();
+      closeOverlay('contactOverlay');
+    }catch(err){console.error(err);alert("Error sending query.");}
+  };
+
+  // ==================== Overlay Helper ====================
+  function openOverlay(id){ document.getElementById(id).style.display='block'; }
+</script>
+
+<!-- ==================== Embedded CSS ==================== -->
+<style>
+  body{margin:0;font-family:'Outfit',sans-serif;overflow-x:hidden;background:#fff;color:#333;}
+  h2,h3,h4{margin:0;}
+  .overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);color:#fff;overflow-y:auto;z-index:999;padding:20px;}
+  .close-overlay{i{cursor:pointer;color:#fff;font-size:1.5rem;margin-bottom:20px;}}
+  footer{background:#111;color:#fff;padding:40px 20px;}
+  .footer-grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;}
+  .footer-logo h2{color:#ff5200;}
+  .footer-links h4{color:#ff5200;margin-bottom:10px;cursor:pointer;}
+  .footer-links p{cursor:pointer;margin:5px 0;}
+  button{cursor:pointer;transition:all 0.3s ease;}
+  .dark-mode{background:#111;color:#eee;}
+  .dark-mode footer{background:#222;color:#eee;}
+  .dark-mode input,.dark-mode textarea{background:#222;color:#eee;border:1px solid #555;}
+  input,textarea{padding:10px;border-radius:8px;border:1px solid #ccc;width:100%;color:#333;}
+  button:hover{opacity:0.9;}
+  .faq-item{margin-bottom:15px;}
+  .faq-item p{margin-top:5px;font-size:0.9rem;color:#ccc;}
+</style>
+<!-- ==================== Hero Animations & Confetti ==================== -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  // Hero Text Animation
+  const heroTitle = document.querySelector('.hero h1');
+  let heroText = heroTitle ? heroTitle.innerText : "";
+  let index = 0;
+  if(heroTitle){
+    heroTitle.innerText = "";
+    const typeWriter = () => {
+      if(index < heroText.length){
+        heroTitle.innerText += heroText.charAt(index);
+        index++;
+        setTimeout(typeWriter, 100);
+      }
+    };
+    typeWriter();
+  }
+
+  // Smooth Scroll for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+    anchor.addEventListener('click', function(e){
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  // Confetti Effect for Cart Addition
+  function fireConfetti(){
+    confetti({
+      particleCount: 100,
+      spread: 90,
+      origin: { y: 0.8 },
+      colors: ['#ff5200','#60b246','#ffffff','#ffd700','#ff69b4']
+    });
+  }
+
+  // Override addToCart to include confetti
+  const originalAddToCart = window.addToCart;
+  window.addToCart = (id)=>{
+    originalAddToCart(id);
+    fireConfetti();
+  };
+
+  // ==================== Hover & Card Effects ====================
+  const styleSheet = document.createElement("style");
+  styleSheet.innerText = `
+    .res-card,.dish-card{transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    .res-card:hover,.dish-card:hover{transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.3);}
+    .add-item-btn:hover{background:#ff6a1a;}
+    .cart-row:hover{background:rgba(255,255,255,0.05);}
+  `;
+  document.head.appendChild(styleSheet);
+
+  // ==================== First Login Task Flow ====================
+  async function showPreferenceTask(){
+    if(!user) return;
+    const prefOverlay = document.getElementById('taskOverlay') || document.createElement('div');
+    prefOverlay.id = 'taskOverlay';
+    prefOverlay.className = 'overlay';
+    prefOverlay.innerHTML = `
+      <div class="close-overlay" onclick="closeOverlay('taskOverlay')"><i class="fas fa-times"></i></div>
+      <h2>Welcome, ${user.displayName}!</h2>
+      <p>Let's set up your preferences for a better experience.</p>
+      <h3>Select your favorite food categories:</h3>
+      <div id="foodPrefs" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button data-cat="Pizza">Pizza</button>
+        <button data-cat="Burger">Burger</button>
+        <button data-cat="Desserts">Desserts</button>
+        <button data-cat="Beverages">Beverages</button>
+      </div>
+      <h3>Select preferred restaurants:</h3>
+      <div id="restPrefs" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+        <button data-rest="Italiano Hub">Italiano Hub</button>
+        <button data-rest="Burger Kingz">Burger Kingz</button>
+        <button data-rest="The Ajara Grill">The Ajara Grill</button>
+        <button data-rest="Sweet Ajara">Sweet Ajara</button>
+      </div>
+      <button id="savePrefs" style="margin-top:20px;background:var(--secondary);color:white;padding:10px;border:none;border-radius:8px;">Save Preferences</button>
+    `;
+    document.body.appendChild(prefOverlay);
+    prefOverlay.style.display='block';
+
+    const selectedCats=[];
+    document.querySelectorAll('#foodPrefs button').forEach(btn=>{
+      btn.onclick=()=>{ btn.classList.toggle('selected'); btn.classList.contains('selected')?selectedCats.push(btn.dataset.cat):selectedCats.splice(selectedCats.indexOf(btn.dataset.cat),1);}
+    });
+    const selectedRests=[];
+    document.querySelectorAll('#restPrefs button').forEach(btn=>{
+      btn.onclick=()=>{ btn.classList.toggle('selected'); btn.classList.contains('selected')?selectedRests.push(btn.dataset.rest):selectedRests.splice(selectedRests.indexOf(btn.dataset.rest),1);}
+    });
+
+    document.getElementById('savePrefs').onclick=async()=>{
+      try{
+        await setDoc(doc(db,"userPrefs",user.uid),{categories:selectedCats,restaurants:selectedRests,timestamp:new Date()});
+        alert("Preferences saved!");
+        closeOverlay('taskOverlay');
+      }catch(err){console.error(err);alert("Error saving preferences.");}
+    };
+  }
+
+  // Show task after login
+  onAuthStateChanged(auth,(usr)=>{
+    if(usr){setTimeout(()=>{showPreferenceTask();},500);}
+  });
+
+  // ==================== Selected Button Styling ====================
+  styleSheet.innerText += `
+    #foodPrefs button,#restPrefs button{padding:10px 15px;border-radius:8px;border:1px solid var(--secondary);background:none;color:var(--secondary);transition:0.3s;}
+    #foodPrefs button.selected,#restPrefs button.selected{background:var(--secondary);color:#fff;}
+  `;
+
+  // ==================== Smooth Scroll & Mobile UX ====================
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth<600){
+      document.querySelectorAll('.cat-strip img').forEach(img=>img.style.height='120px');
+      document.querySelectorAll('.res-card img').forEach(img=>img.style.height='150px');
+    }
+  });
+</script>
+
+<!-- ==================== Part 4 Complete ==================== -->

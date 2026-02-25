@@ -3,277 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GENZ FOOD | Ajara's Premium Delivery</title>
+    <title>GENZ FOOD | Ajara's Premium Food Hub</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#ff5200">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
             --primary: #ff5200;
-            --secondary: #282c3f;
-            --success: #60b246;
-            --light-bg: #f8f9fa;
+            --primary-light: #fff0e6;
+            --secondary: #161824;
+            --text-dark: #282c3f;
+            --text-gray: #686b78;
             --white: #ffffff;
-            --shadow: 0 4px 15px rgba(0,0,0,0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --success: #60b246;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
-        body { background-color: var(--light-bg); color: var(--secondary); overflow-x: hidden; }
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f4f7f9; color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* --- Scrollbar Customization --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #d4d5d9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        /* --- Navbar --- */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: var(--white); display: flex; justify-content: space-between;
-            align-items: center; padding: 15px 5%; box-shadow: var(--shadow);
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed; top: 0; width: 100%; height: 75px;
+            background: var(--glass); backdrop-filter: blur(15px);
+            z-index: 1000; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 6%;
+            box-shadow: var(--shadow-sm); border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .logo { font-weight: 800; font-size: 1.6rem; color: var(--primary); letter-spacing: -1px; cursor: pointer; }
-        .location { font-size: 0.85rem; color: #686b78; display: flex; align-items: center; gap: 5px; }
-        .nav-icons { display: flex; gap: 20px; align-items: center; }
-        .nav-icons i { font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
-        .nav-icons i:hover { color: var(--primary); }
-        .cart-icon { position: relative; }
-        #cart-count {
-            position: absolute; top: -8px; right: -10px; background: var(--primary);
-            color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; font-weight: bold;
+        .logo-box { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo-box h1 { color: var(--primary); font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; }
+        .location-tag { font-size: 0.8rem; color: var(--text-gray); display: flex; flex-direction: column; }
+        .location-tag b { color: var(--text-dark); font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+        .nav-item { position: relative; cursor: pointer; transition: 0.3s; padding: 8px; border-radius: 50%; }
+        .nav-item:hover { background: var(--primary-light); color: var(--primary); }
+        .badge {
+            position: absolute; top: 0; right: 0; background: var(--primary);
+            color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%;
+            font-weight: bold; border: 2px solid white;
         }
-        #user-photo {
-            width: 35px; height: 35px; border-radius: 50%; 
-            border: 2px solid var(--primary); cursor: pointer; object-fit: cover;
-        }
+        #nav-user-img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; }
 
         /* --- Hero Section --- */
         .hero {
-            height: 70vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), 
-            url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1500&q=80');
-            background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; color: white; padding: 20px; margin-top: 60px;
+            margin-top: 75px; height: 500px; position: relative;
+            background: var(--secondary); display: flex; align-items: center;
+            justify-content: center; overflow: hidden;
         }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 10px; animation: fadeInUp 1s forwards; }
-        .hero p { font-size: 1.2rem; margin-bottom: 30px; animation: fadeInUp 1s 0.2s forwards; opacity: 0; }
-        
-        .search-wrapper {
-            width: 100%; max-width: 600px; position: relative;
-            animation: fadeInUp 1s 0.4s forwards; opacity: 0;
+        .hero-bg {
+            position: absolute; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+            url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; transition: 0.5s;
         }
-        .search-wrapper input {
-            width: 100%; padding: 18px 30px; border-radius: 50px; border: none; outline: none;
-            font-size: 1.1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .hero-content {
+            position: relative; z-index: 10; text-align: center; color: white;
+            max-width: 800px; padding: 20px;
         }
+        .hero-content h2 { font-size: clamp(2rem, 8vw, 4.5rem); font-weight: 800; line-height: 1; margin-bottom: 20px; }
+        .hero-content p { font-size: 1.2rem; margin-bottom: 40px; color: #ccc; }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- Search Bar --- */
+        .search-container {
+            position: relative; max-width: 650px; margin: 0 auto;
+            background: white; border-radius: 50px; display: flex;
+            padding: 8px; box-shadow: 0 15px 45px rgba(0,0,0,0.3);
         }
+        .search-container input {
+            flex: 1; border: none; outline: none; padding: 12px 25px;
+            font-size: 1.1rem; border-radius: 50px;
+        }
+        .search-btn {
+            background: var(--primary); color: white; border: none;
+            padding: 12px 30px; border-radius: 50px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .search-btn:hover { background: #e64a00; transform: scale(1.05); }
 
-        /* --- Restaurant Slider --- */
-        .section-title { padding: 40px 5% 10px; font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        /* --- Sections Layout --- */
+        section { padding: 50px 6%; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
+        .section-header h3 { font-size: 1.8rem; font-weight: 800; }
+
+        /* --- Horizontal Restaurant Slider --- */
         .res-slider {
-            display: flex; overflow-x: auto; padding: 20px 5%; gap: 25px;
+            display: flex; overflow-x: auto; gap: 25px; padding-bottom: 20px;
             scrollbar-width: none;
         }
         .res-slider::-webkit-scrollbar { display: none; }
         .res-card {
-            min-width: 300px; background: white; border-radius: 20px; overflow: hidden;
-            transition: var(--transition); cursor: pointer; box-shadow: var(--shadow);
-        }
-        .res-card:hover { transform: translateY(-10px); }
-        .res-card img { width: 100%; height: 180px; object-fit: cover; }
-        .res-info { padding: 20px; }
-        .rating-badge { background: var(--success); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-
-        /* --- Categories Vertical Cards --- */
-        .categories-container { padding: 20px 5%; display: flex; flex-direction: column; gap: 20px; }
-        .cat-row {
-            width: 100%; height: 150px; border-radius: 20px; position: relative;
+            min-width: 320px; background: white; border-radius: var(--radius);
             overflow: hidden; cursor: pointer; transition: 0.4s;
+            box-shadow: var(--shadow-sm);
         }
-        .cat-row:hover { transform: scale(1.02); filter: brightness(1.1); }
-        .cat-row img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
-        .cat-row h2 {
+        .res-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .res-img { width: 100%; height: 180px; object-fit: cover; position: relative; }
+        .res-promo {
+            position: absolute; bottom: 10px; left: 10px; background: var(--primary);
+            color: white; padding: 4px 10px; border-radius: 5px; font-weight: 700; font-size: 0.8rem;
+        }
+        .res-details { padding: 18px; }
+        .res-details h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .res-meta { display: flex; gap: 15px; font-size: 0.85rem; font-weight: 600; }
+        .rating { color: #f1c40f; }
+
+        /* --- Vertical Category Cards --- */
+        .category-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            gap: 20px;
+        }
+        .cat-strip {
+            height: 140px; border-radius: var(--radius); overflow: hidden;
+            position: relative; cursor: pointer; transition: 0.4s;
+        }
+        .cat-strip img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65); transition: 0.5s; }
+        .cat-strip:hover img { transform: scale(1.1); filter: brightness(0.8); }
+        .cat-strip h3 {
             position: absolute; left: 30px; top: 50%; transform: translateY(-50%);
-            color: white; font-size: 2.2rem; text-transform: uppercase; font-weight: 800;
+            color: white; font-size: 2.2rem; font-weight: 800; text-transform: uppercase;
         }
 
-        /* --- Overlays (Auth, Dishes, Cart) --- */
+        /* --- Overlays --- */
         .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.98); z-index: 2000; display: none; 
-            overflow-y: auto; padding: 40px 5%; animation: slideIn 0.4s ease;
+            position: fixed; inset: 0; background: white; z-index: 2000;
+            display: none; overflow-y: auto; padding: 100px 6% 50px;
+            animation: fadeIn 0.4s ease;
         }
-        @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
         
-        .close-btn { font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--primary); margin-bottom: 20px; display: inline-block; }
+        .close-overlay {
+            position: fixed; top: 25px; left: 6%; z-index: 2100;
+            background: var(--secondary); color: white; width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
-        .dish-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        /* --- Dish Items --- */
+        .dish-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
         .dish-card {
-            background: #fff; padding: 20px; border-radius: 15px; border: 1px solid #eee;
-            display: flex; gap: 15px; align-items: center; transition: 0.3s;
+            background: white; border: 1px solid #eee; padding: 20px; border-radius: var(--radius);
+            display: flex; gap: 20px; position: relative; transition: 0.3s;
         }
-        .dish-card:hover { box-shadow: var(--shadow); border-color: var(--primary); }
-        .dish-card img { width: 110px; height: 110px; border-radius: 12px; object-fit: cover; }
-        .add-btn {
-            background: var(--white); color: var(--success); border: 1px solid #ccc;
-            padding: 8px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;
+        .dish-card:hover { box-shadow: var(--shadow-lg); }
+        .dish-info { flex: 1; }
+        .dish-info h4 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text-dark); }
+        .dish-info p { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 12px; }
+        .dish-price { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
+        .dish-image-box { position: relative; width: 130px; height: 130px; }
+        .dish-image-box img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
+        .add-item-btn {
+            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            background: white; color: var(--success); border: 1px solid #ccc;
+            padding: 6px 22px; border-radius: 8px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.2s;
         }
-        .add-btn:hover { background: var(--success); color: white; border-color: var(--success); }
+        .add-item-btn:hover { background: var(--success); color: white; border-color: var(--success); }
 
         /* --- Cart Sidebar --- */
-        .cart-sidebar {
-            position: fixed; right: -100%; top: 0; width: 450px; height: 100%;
-            background: white; z-index: 3000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px;
+        .cart-panel {
+            position: fixed; top: 0; right: -100%; width: 480px; height: 100%;
+            background: white; z-index: 3000; box-shadow: -10px 0 50px rgba(0,0,0,0.2);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 40px; display: flex; flex-direction: column;
         }
-        .cart-sidebar.active { right: 0; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px dashed #eee; padding-bottom: 10px; }
-        
-        /* --- Profile Card --- */
-        .auth-container { text-align: center; max-width: 400px; margin: 100px auto; padding: 40px; background: white; border-radius: 25px; box-shadow: var(--shadow); }
-        .google-btn {
-            background: #4285F4; color: white; border: none; padding: 15px 25px;
-            border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+        .cart-panel.active { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .cart-items-container { flex: 1; overflow-y: auto; padding-right: 10px; }
+        .cart-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px dashed #eee; }
+        .cart-summary { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .checkout-btn {
+            width: 100%; padding: 18px; background: var(--success); color: white;
+            border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800;
+            margin-top: 20px; cursor: pointer; display: flex; justify-content: space-between;
         }
 
-        /* --- Footer --- */
-        footer { background: var(--secondary); color: white; padding: 60px 5%; margin-top: 80px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-        .faq-box { margin-top: 20px; }
-        .faq-item { border-bottom: 1px solid #444; padding: 15px 0; cursor: pointer; }
-        .faq-ans { display: none; padding: 10px 0; color: #aaa; font-size: 0.9rem; }
+        /* --- Auth Page --- */
+        .auth-card {
+            max-width: 450px; margin: 100px auto; background: white; padding: 40px;
+            border-radius: 25px; text-align: center; box-shadow: var(--shadow-lg);
+        }
+        .google-signin {
+            background: #fff; color: #757575; border: 1px solid #ddd; padding: 14px 25px;
+            width: 100%; border-radius: 8px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+            margin-top: 30px; transition: 0.3s;
+        }
+        .google-signin:hover { background: #f1f1f1; box-shadow: var(--shadow-sm); }
 
+        /* --- Responsive --- */
         @media (max-width: 600px) {
-            .cart-sidebar { width: 100%; }
-            .hero h1 { font-size: 2.5rem; }
-            .cat-row h2 { font-size: 1.5rem; }
+            .cart-panel { width: 100%; }
+            .hero { height: 400px; }
+            .hero-content h2 { font-size: 2.8rem; }
+            .cat-strip { height: 110px; }
+            .cat-strip h3 { font-size: 1.4rem; }
+            .dish-list { grid-template-columns: 1fr; }
         }
+
+        /* Footer */
+        footer { background: var(--secondary); color: white; padding: 80px 6%; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; }
+        .footer-logo h2 { color: var(--primary); font-size: 2rem; margin-bottom: 15px; }
+        .footer-links p { margin-bottom: 10px; color: #999; cursor: pointer; transition: 0.3s; }
+        .footer-links p:hover { color: var(--primary); padding-left: 5px; }
+        .app-badges { display: flex; gap: 10px; margin-top: 20px; }
+        .app-badges img { height: 40px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo" onclick="location.reload()">GENZ FOOD</div>
-        <div class="location"><i class="fas fa-map-marker-alt" style="color:var(--primary)"></i> Ajara, MH</div>
-        <div class="nav-icons">
-            <i class="fas fa-search" onclick="document.getElementById('home').scrollIntoView()"></i>
-            <div class="cart-icon" onclick="toggleCart()">
+    <header>
+        <div class="logo-box" onclick="location.reload()">
+            <img src="https://cdn-icons-png.flaticon.com/512/1046/1046788.png" width="40" alt="Logo">
+            <h1>GENZ FOOD</h1>
+        </div>
+        <div class="location-tag">
+            <span>Delivering to</span>
+            <b><i class="fas fa-location-dot"></i> Ajara, Maharashtra <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left:5px;"></i></b>
+        </div>
+        <div class="nav-actions">
+            <div class="nav-item" onclick="document.getElementById('home').scrollIntoView()"><i class="fas fa-search"></i></div>
+            <div class="nav-item" onclick="toggleCart()">
                 <i class="fas fa-shopping-bag"></i>
-                <span id="cart-count">0</span>
+                <span class="badge" id="cart-count">0</span>
             </div>
-            <div id="auth-trigger" onclick="toggleAuthOverlay()">
-                <img id="user-photo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
+            <div id="user-trigger" onclick="toggleAuth()">
+                <img id="nav-user-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
             </div>
         </div>
-    </nav>
+    </header>
 
     <section class="hero" id="home">
-        <h1>GENZ FOOD AJARA</h1>
-        <p>Premium flavors, blazing fast delivery.</p>
-        <div class="search-wrapper">
-            <input type="text" id="globalSearch" placeholder="Search for 'Pizza', 'Burger' or 'The Ajara Grill'..." onkeyup="handleSearch(event)">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h2 class="animate__animated animate__fadeInUp">GENZ FOOD AJARA</h2>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Fastest delivery from your favorite local kitchens.</p>
+            <div class="search-container animate__animated animate__fadeInUp animate__delay-2s">
+                <input type="text" id="searchInput" placeholder="Search for 'Pizza', 'Chicken', 'The Ajara Grill'..." onkeyup="handleQuickSearch(event)">
+                <button class="search-btn">Search</button>
+            </div>
         </div>
     </section>
 
-    <h2 class="section-title"><i class="fas fa-fire" style="color:orange"></i> Popular Restaurants</h2>
-    <div class="res-slider" id="resSlider"></div>
+    <section>
+        <div class="section-header">
+            <h3>Top Restaurants in Ajara</h3>
+            <span style="color: var(--primary); font-weight: bold; cursor: pointer;">View all <i class="fas fa-arrow-right"></i></span>
+        </div>
+        <div class="res-slider" id="restaurantSlider">
+            </div>
+    </section>
 
-    <h2 class="section-title"><i class="fas fa-utensils" style="color:var(--primary)"></i> What's on your mind?</h2>
-    <div class="categories-container" id="catContainer"></div>
+    <section>
+        <div class="section-header">
+            <h3>Explore Categories</h3>
+        </div>
+        <div class="category-grid" id="categoryGrid">
+            </div>
+    </section>
 
-    <div id="dishes-overlay" class="overlay">
-        <span class="close-btn" onclick="closeOverlay('dishes-overlay')"><i class="fas fa-arrow-left"></i> Back to Menu</span>
-        <h2 id="cat-title-display" style="font-size: 2.5rem; margin-bottom: 30px;"></h2>
-        <div class="dish-grid" id="dishGrid"></div>
+    <div id="dishesOverlay" class="overlay">
+        <div class="close-overlay" onclick="closeOverlay('dishesOverlay')"><i class="fas fa-arrow-left"></i></div>
+        <div style="text-align:center; margin-bottom: 50px;">
+            <h1 id="overlayTitle" style="font-size: 3rem; font-weight: 800; color: var(--secondary);">Category</h1>
+            <p style="color: var(--text-gray);">Premium quality dishes curated just for you.</p>
+        </div>
+        <div class="dish-list" id="dishGrid">
+            </div>
     </div>
 
-    <div id="auth-overlay" class="overlay">
-        <span class="close-btn" onclick="closeOverlay('auth-overlay')">&times; Close</span>
-        <div class="auth-container">
-            <div id="logged-out-state">
-                <img src="https://cdn-icons-png.flaticon.com/512/2085/2085285.png" width="80" style="margin-bottom:20px;">
-                <h2>Welcome Back</h2>
-                <p style="color:#666; margin-bottom:30px;">Login to sync your orders across devices.</p>
-                <button class="google-btn" id="loginBtn"><i class="fab fa-google"></i> Sign in with Google</button>
+    <div id="authOverlay" class="overlay">
+        <div class="close-overlay" onclick="closeOverlay('authOverlay')"><i class="fas fa-times"></i></div>
+        <div class="auth-card">
+            <div id="logged-out-view">
+                <img src="https://cdn-icons-png.flaticon.com/512/3456/3456426.png" width="80" style="margin-bottom: 20px;">
+                <h2>Welcome to Genz Food</h2>
+                <p style="color:#777; margin-top:10px;">Login to track your orders and enjoy exclusive coupons.</p>
+                <button class="google-signin" id="googleLoginBtn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
+                    Continue with Google
+                </button>
             </div>
-            <div id="logged-in-state" style="display:none;">
-                <img id="large-profile-pic" src="" style="width:100px; border-radius:50%; border:4px solid var(--primary);">
-                <h2 id="display-name" style="margin-top:15px;">User Name</h2>
-                <p id="display-email" style="color:#666;"></p>
-                <div style="margin-top:30px; text-align:left; border-top:1px solid #eee; padding-top:20px;">
-                    <h4>Recent Orders</h4>
-                    <div id="order-history" style="font-size: 0.9rem; color:#888; margin-top:10px;">No orders yet.</div>
+            <div id="logged-in-view" style="display:none;">
+                <img id="profile-img-lg" src="" style="width:120px; height:120px; border-radius:50%; border:5px solid var(--primary-light);">
+                <h2 id="user-name-display" style="margin-top: 15px;">GenZ User</h2>
+                <p id="user-email-display" style="color:#666;"></p>
+                
+                <div style="text-align:left; margin-top:40px; border-top:1px solid #eee; padding-top:20px;">
+                    <h3>My Order History</h3>
+                    <div id="history-container" style="margin-top:15px; color:#888;">You haven't ordered anything yet. Let's eat!</div>
                 </div>
-                <button onclick="handleLogout()" style="margin-top:40px; background:none; border:none; color:red; font-weight:600; cursor:pointer;">Logout</button>
+                
+                <button onclick="signOutUser()" style="margin-top:50px; background:none; border:none; color:red; font-weight:bold; cursor:pointer;">Logout</button>
             </div>
         </div>
     </div>
 
-    <div class="cart-sidebar" id="cartSidebar">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-header">
             <h2>Your Cart</h2>
             <i class="fas fa-times" style="font-size:1.5rem; cursor:pointer;" onclick="toggleCart()"></i>
         </div>
-        <div id="cartItemsList" style="max-height: 50vh; overflow-y:auto;"></div>
-        
-        <div style="margin-top:30px; border-top: 2px dashed #ddd; padding-top:20px;">
+        <div class="cart-items-container" id="cartItemsList">
+            </div>
+        <div class="cart-summary">
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <span>Subtotal</span><span id="subTotal">₹0</span>
+                <span>Item Total</span><span id="subtotalVal">₹0</span>
             </div>
             <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <span>Delivery Charge (Ajara)</span><span id="deliveryCharge">₹0</span>
+                <span>Delivery (Ajara)</span><span id="deliveryVal">₹0</span>
             </div>
-            <div style="margin:15px 0;">
-                <input type="text" id="couponCode" placeholder="Promo Code" style="padding:10px; width:65%; border:1px solid #ddd; border-radius:5px;">
-                <button onclick="applyPromo()" style="padding:10px; width:30%; background:var(--secondary); color:white; border:none; border-radius:5px;">Apply</button>
+            <div style="margin: 15px 0;">
+                <input type="text" id="promoInput" placeholder="Promo Code (AJARA50)" style="width:70%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                <button onclick="applyPromo()" style="width:25%; padding:10px; background:var(--secondary); color:white; border:none; border-radius:8px; cursor:pointer;">Apply</button>
             </div>
-            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.3rem; color:var(--primary);">
-                <span>Total</span><span id="grandTotal">₹0</span>
+            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.4rem; color:var(--text-dark);">
+                <span>Grand Total</span><span id="totalVal">₹0</span>
             </div>
-            <button class="google-btn" style="background:var(--success); margin-top:25px;" onclick="checkout()">PLACE ORDER VIA WHATSAPP</button>
+            <button class="checkout-btn" onclick="processCheckout()">
+                <span>PLACE ORDER</span>
+                <span id="finalBtnTotal">₹0</span>
+            </button>
         </div>
     </div>
 
     <footer>
         <div class="footer-grid">
-            <div>
-                <h2 style="color:var(--primary)">GENZ FOOD</h2>
-                <p>Modern Delivery for a Modern Ajara.</p>
-                <p style="margin-top:15px;">&copy; 2026 Genz Food Inc.</p>
-            </div>
-            <div>
-                <h4>Company</h4>
-                <p style="margin-top:10px; color:#aaa; cursor:pointer;">About Us</p>
-                <p style="margin-top:5px; color:#aaa; cursor:pointer;">Privacy Policy</p>
-                <p style="margin-top:5px; color:#aaa; cursor:pointer;">Contact: +91 90000 00000</p>
-            </div>
-            <div class="faq-box">
-                <h4>Help & FAQs</h4>
-                <div class="faq-item" onclick="this.querySelector('.faq-ans').style.display = (this.querySelector('.faq-ans').style.display === 'block' ? 'none' : 'block')">
-                    What's the delivery range? <i class="fas fa-chevron-down" style="float:right"></i>
-                    <div class="faq-ans">We deliver within 15km of Ajara city center.</div>
-                </div>
-                <div class="faq-item" onclick="this.querySelector('.faq-ans').style.display = (this.querySelector('.faq-ans').style.display === 'block' ? 'none' : 'block')">
-                    Payment methods? <i class="fas fa-chevron-down" style="float:right"></i>
-                    <div class="faq-ans">We accept COD, GPay, and PhonePe via WhatsApp link.</div>
+            <div class="footer-logo">
+                <h2>GENZ FOOD</h2>
+                <p>Curating the best dining experiences in Ajara. Delivering happiness to your doorstep.</p>
+                <div class="app-badges">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg">
                 </div>
             </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <p>About GenZ Food</p>
+                <p>Partner with us</p>
+                <p>Contact Support</p>
+                <p>Terms of Service</p>
+            </div>
+            <div class="footer-links">
+                <h4>Support</h4>
+                <p>Help Center</p>
+                <p>FAQ - Delivery</p>
+                <p>Refund Policy</p>
+                <p>Privacy Policy</p>
+            </div>
+        </div>
+        <div style="margin-top: 50px; border-top: 1px solid #333; padding-top: 30px; text-align: center; color: #666; font-size: 0.8rem;">
+            &copy; 2026 Genz Food Ajara. All rights reserved. Built for the next generation.
         </div>
     </footer>
 
     <script type="module">
-        // 1. FIREBASE CONFIGURATION (YOURS)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        // 1. Firebase Configuration (Aapki Config)
         const firebaseConfig = {
             apiKey: "AIzaSyAY3G265zTP5Qpf9EoGlGy2sSrVYGI4LGk",
             authDomain: "genzfood2-96e43.firebaseapp.com",
@@ -285,211 +388,4 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        // 2. DATA ENGINE
-        const categories = ["Pizza", "Burger", "Shawarma", "Pasta", "Salads", "Sandwich", "Chicken", "Snacks", "Beverages", "Desserts"];
-        const restaurants = [
-            { name: "The Ajara Grill", cat: "Chicken, Snacks", rating: 4.5, img: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500&q=80" },
-            { name: "Italiano Hub", cat: "Pizza, Pasta", rating: 4.2, img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80" },
-            { name: "Burger Kingz", cat: "Burger, Beverages", rating: 4.7, img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&q=80" },
-            { name: "Dessert Oasis", cat: "Desserts, Beverages", rating: 4.8, img: "https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?w=500&q=80" },
-            { name: "Spicy Shawarma", cat: "Shawarma", rating: 4.3, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500&q=80" }
-        ];
-
-        let allDishes = [];
-        categories.forEach(cat => {
-            for(let i=1; i<=10; i++){
-                allDishes.push({
-                    id: `${cat}-${i}`,
-                    name: `${cat} ${['Special', 'Deluxe', 'Supreme', 'GenZ Edition', 'Classic'][i%5]} ${i}`,
-                    price: [120, 180, 250, 99, 350][i%5],
-                    cat: cat,
-                    img: `https://source.unsplash.com/400x400/?${cat},food&sig=${cat}${i}`,
-                    desc: `Freshly prepared ${cat} made with local Ajara ingredients.`
-                });
-            }
-        });
-
-        // 3. APP STATE
-        let cart = JSON.parse(localStorage.getItem('genz_cart')) || [];
-        let user = null;
-        let discount = 0;
-
-        // 4. CORE FUNCTIONS
-        window.onload = () => {
-            renderUI();
-            updateCartCount();
-        };
-
-        function renderUI() {
-            // Render Restaurants
-            const resSlider = document.getElementById('resSlider');
-            resSlider.innerHTML = restaurants.map(r => `
-                <div class="res-card" onclick="openDishes('${r.cat.split(',')[0]}')">
-                    <img src="${r.img}" alt="${r.name}">
-                    <div class="res-info">
-                        <h3>${r.name}</h3>
-                        <p style="font-size:0.8rem; color:#777;">${r.cat}</p>
-                        <span class="rating-badge"><i class="fas fa-star"></i> ${r.rating}</span>
-                    </div>
-                </div>
-            `).join('');
-
-            // Render Categories
-            const catContainer = document.getElementById('catContainer');
-            catContainer.innerHTML = categories.map(c => `
-                <div class="cat-row" onclick="openDishes('${c}')">
-                    <img src="https://source.unsplash.com/1200x300/?${c},food" alt="${c}">
-                    <h2>${c}</h2>
-                </div>
-            `).join('');
-        }
-
-        window.openDishes = (catName) => {
-            document.getElementById('cat-title-display').innerText = catName;
-            const filtered = allDishes.filter(d => d.cat === catName);
-            const grid = document.getElementById('dishGrid');
-            grid.innerHTML = filtered.map(d => `
-                <div class="dish-card">
-                    <img src="${d.img}" alt="${d.name}">
-                    <div style="flex-grow:1;">
-                        <h4 style="font-size:1.1rem;">${d.name}</h4>
-                        <p style="font-size:0.8rem; color:#888; margin:5px 0;">${d.desc}</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                            <span style="font-weight:700;">₹${d.price}</span>
-                            <button class="add-btn" onclick="addToCart('${d.id}')">ADD</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('dishes-overlay').style.display = 'block';
-        };
-
-        window.closeOverlay = (id) => {
-            document.getElementById(id).style.display = 'none';
-        };
-
-        window.addToCart = (id) => {
-            const item = allDishes.find(d => d.id === id);
-            cart.push(item);
-            localStorage.setItem('genz_cart', JSON.stringify(cart));
-            updateCartCount();
-            confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 }, colors: ['#ff5200', '#282c3f'] });
-        };
-
-        function updateCartCount() {
-            document.getElementById('cart-count').innerText = cart.length;
-            renderCartItems();
-        }
-
-        window.toggleCart = () => {
-            document.getElementById('cartSidebar').classList.toggle('active');
-        };
-
-        function renderCartItems() {
-            const list = document.getElementById('cartItemsList');
-            if(cart.length === 0) {
-                list.innerHTML = `<div style="text-align:center; padding:50px 0;"><i class="fas fa-shopping-basket" style="font-size:3rem; color:#eee;"></i><p>Empty!</p></div>`;
-            } else {
-                list.innerHTML = cart.map((item, index) => `
-                    <div class="cart-item">
-                        <div>
-                            <p style="font-weight:600;">${item.name}</p>
-                            <p style="font-size:0.8rem; color:var(--primary);">₹${item.price}</p>
-                        </div>
-                        <i class="fas fa-trash-alt" style="color:#ff4d4d; cursor:pointer;" onclick="removeItem(${index})"></i>
-                    </div>
-                `).join('');
-            }
-
-            let sub = cart.reduce((acc, curr) => acc + curr.price, 0);
-            let del = (sub > 0 && sub < 500) ? 30 : 0;
-            document.getElementById('subTotal').innerText = `₹${sub}`;
-            document.getElementById('deliveryCharge').innerText = sub > 0 ? `₹${del}` : `₹0`;
-            document.getElementById('grandTotal').innerText = `₹${(sub + del - discount) < 0 ? 0 : (sub + del - discount)}`;
-        }
-
-        window.removeItem = (index) => {
-            cart.splice(index, 1);
-            localStorage.setItem('genz_cart', JSON.stringify(cart));
-            updateCartCount();
-        };
-
-        window.applyPromo = () => {
-            const code = document.getElementById('couponCode').value.toUpperCase();
-            if(code === "GENZ10") { discount = 10; alert("₹10 Saved!"); }
-            else if(code === "AJARA50") { discount = 50; alert("₹50 Saved!"); }
-            else { alert("Invalid Code"); discount = 0; }
-            updateCartCount();
-        };
-
-        // 5. FIREBASE AUTH LOGIC
-        window.toggleAuthOverlay = () => {
-            document.getElementById('auth-overlay').style.display = 'block';
-        };
-
-        document.getElementById('loginBtn').onclick = async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                console.log("Logged In:", result.user.displayName);
-            } catch (error) {
-                alert("Login Error: " + error.message);
-            }
-        };
-
-        window.handleLogout = () => {
-            signOut(auth).then(() => {
-                location.reload();
-            });
-        };
-
-        onAuthStateChanged(auth, (firebaseUser) => {
-            const loggedInView = document.getElementById('logged-in-state');
-            const loggedOutView = document.getElementById('logged-out-state');
-            const navPhoto = document.getElementById('user-photo');
-
-            if (firebaseUser) {
-                user = firebaseUser;
-                loggedInView.style.display = 'block';
-                loggedOutView.style.display = 'none';
-                navPhoto.src = user.photoURL;
-                document.getElementById('large-profile-pic').src = user.photoURL;
-                document.getElementById('display-name').innerText = user.displayName;
-                document.getElementById('display-email').innerText = user.email;
-            } else {
-                user = null;
-                loggedInView.style.display = 'none';
-                loggedOutView.style.display = 'block';
-                navPhoto.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-            }
-        });
-
-        // 6. WHATSAPP CHECKOUT
-        window.checkout = () => {
-            if(cart.length === 0) return alert("Add some food first!");
-            if(!user) return alert("Please Login with Google first to verify identity.");
-
-            let orderList = cart.map(i => `• ${i.name} (₹${i.price})`).join('%0A');
-            let total = document.getElementById('grandTotal').innerText;
-            let text = `*GENZ FOOD AJARA - ORDER*%0A--------------------------%0A*Customer:* ${user.displayName}%0A*Items:*%0A${orderList}%0A--------------------------%0A*Total Amount:* ${total}%0A%0A*Location:* (Ajara, MH)%0A_Please send location pin next._`;
-            
-            window.open(`https://wa.me/919000000000?text=${text}`, '_blank');
-            cart = [];
-            localStorage.setItem('genz_cart', '[]');
-            updateCartCount();
-            toggleCart();
-            alert("Order Details sent to Kitchen!");
-        };
-
-        window.handleSearch = (e) => {
-            const query = e.target.value.toLowerCase();
-            if(query.length > 2) {
-                const results = allDishes.filter(d => d.name.toLowerCase().includes(query) || d.cat.toLowerCase().includes(query));
-                if(results.length > 0) openDishes(results[0].cat);
-            }
-        };
-
-    </script>
-</body>
-</html>
+        const
